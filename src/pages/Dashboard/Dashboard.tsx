@@ -3,8 +3,8 @@ import ChartOne from '../../components/ChartOne.tsx';
 import Camera from '../../../public/camera.jpg'
 import { socket } from '../../features/socketio.ts';
 import { useEffect, useState } from 'react';
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface STATE {
   temperature:number[];
   density :number;
@@ -15,6 +15,11 @@ interface STATE {
 }
 
 const Dashboard = () => {
+  const notifyPh = () => toast("Ph level Warning");
+  const notifyTemp = () => toast("Temperature Warning");
+  const notifyWater= () => toast("Water Quality Warning");
+  const notifyOxy = () => toast("Dissolved Oxygen level Warning");
+
   const [data,setData] = useState<STATE>({
     temperature:[],
     density :0,
@@ -39,6 +44,11 @@ const Dashboard = () => {
     }
 
     function onData(message:any) {
+      if(JSON.parse(message).ph_level > 9 || JSON.parse(message).ph_level < 6 ) notifyPh();
+      if(JSON.parse(message).temperature > 34 || JSON.parse(message).temperature < 25) notifyTemp();
+      if(JSON.parse(message).turbidity > 100) notifyWater();
+      if(JSON.parse(message).dissolved_oxygen > 4 ) notifyOxy();
+
       setData((oldData:STATE)=>{
         let arrayTurbi =  [...oldData.ph_level , JSON.parse(message).ph_level]
         let arrayTemp =  [...oldData.temperature , JSON.parse(message).temperature]
@@ -75,6 +85,18 @@ const Dashboard = () => {
     <>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        />
         <ChartOne  name="PH levels" data={data.ph_level}/>
         <ChartThree name='Current Water quality' value={data.turbidity}/>
 

@@ -109,8 +109,6 @@ const options: ApexOptions = {
         fontSize: '0px',
       },
     },
-    min: 0,
-    max: 200,
   },
 };
 
