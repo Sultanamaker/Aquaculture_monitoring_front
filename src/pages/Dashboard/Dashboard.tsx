@@ -44,14 +44,19 @@ const Dashboard = () => {
     }
 
     function onData(message:any) {
+      let temperature = JSON.parse(message).temperature
+      if (temperature>1000)
+      {
+        temperature= temperature/100
+      }
       if(JSON.parse(message).ph_level > 9 || JSON.parse(message).ph_level < 6 ) notifyPh();
-      if(JSON.parse(message).temperature > 34 || JSON.parse(message).temperature < 25) notifyTemp();
+      if(temperature > 34 || temperature < 25) notifyTemp();
       if(JSON.parse(message).turbidity > 100) notifyWater();
       if(JSON.parse(message).dissolved_oxygen > 4 ) notifyOxy();
 
       setData((oldData:STATE)=>{
-        let arrayTurbi =  [...oldData.ph_level , JSON.parse(message).ph_level]
-        let arrayTemp =  [...oldData.temperature , JSON.parse(message).temperature]
+        let arrayTurbi =  [...oldData.ph_level , JSON.parse(message).ph_level | 0 ]
+        let arrayTemp =  [...oldData.temperature , temperature]
         let arrayOxy =  [...oldData.dissolved_oxygen , JSON.parse(message).dissolved_oxygen]
         if(arrayTurbi.length>=10)
         {
