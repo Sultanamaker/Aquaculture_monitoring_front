@@ -85,18 +85,7 @@ const Dashboard = () => {
     <>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-        />
+    
         <ChartOne  name="PH levels" data={data.ph_level}/>
         <ChartThree name='Current Water quality' value={data.turbidity}/>
 
@@ -108,6 +97,18 @@ const Dashboard = () => {
         </div>
         </div>
         <ChartOne  name="Temperature Levels" data={data.temperature}/>
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        />
       </div>
     </>
   );
