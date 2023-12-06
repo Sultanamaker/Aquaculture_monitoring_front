@@ -151,7 +151,7 @@ const ChartOne: React.FC<ChartProps> = (props: ChartProps) => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-secondary">{props.name}</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              {/* <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p> */}
             </div>
           </div>
         </div>
