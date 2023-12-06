@@ -1,6 +1,5 @@
 import ChartThree from '../../components/ChartThree.tsx';
 import ChartOne from '../../components/ChartOne.tsx';
-import Camera from '../../../public/camera.jpg'
 import { socket } from '../../features/socketio.ts';
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -14,12 +13,19 @@ interface STATE {
   dt:Date[];
 }
 
+interface FishState {
+  number:0;
+  behavior:String
+}
 const Dashboard = () => {
   const notifyPh = () => toast("Ph level Warning");
   const notifyTemp = () => toast("Temperature Warning");
   const notifyWater= () => toast("Water Quality Warning");
   const notifyOxy = () => toast("Dissolved Oxygen level Warning");
-
+  const [fishState,setFishState] = useState<FishState>({
+    number:0,
+    behavior:''
+  })
   const [data,setData] = useState<STATE>({
     temperature:[],
     density :0,
@@ -41,6 +47,10 @@ const Dashboard = () => {
 
     function onDisconnect() {
       console.log("socket disconeccted")
+    }
+
+    function onFishState(message:any) {
+      setFishState(JSON.parse(message));
     }
 
     function onData(message:any) {
@@ -79,11 +89,12 @@ const Dashboard = () => {
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('fish_data', onData);
+    socket.on('fish', onFishState);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
-      socket.off('fish_data', onData);
+      socket.off('fish', onFishState);
     };
   }, []);
   return (
@@ -98,6 +109,10 @@ const Dashboard = () => {
         <ChartThree name='Water Density' value={data.density}/>
         <div className="col-span-12 xl:col-span-6">
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+          <div className="flex justify-around text-black">
+                <p>Count : {fishState.number}</p>
+                <p>Behavior : {fishState.behavior}</p>
+          </div>
           <img className="w-[100%] h-[100%]" src="http://localhost:5000/video" />
 
         </div>
