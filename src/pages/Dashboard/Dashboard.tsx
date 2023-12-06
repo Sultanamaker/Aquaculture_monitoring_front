@@ -14,7 +14,7 @@ interface STATE {
 }
 
 interface FishState {
-  number:0;
+  number:number;
   behavior:String
 }
 const Dashboard = () => {
@@ -23,8 +23,8 @@ const Dashboard = () => {
   const notifyWater= () => toast("Water Quality Warning");
   const notifyOxy = () => toast("Dissolved Oxygen level Warning");
   const [fishState,setFishState] = useState<FishState>({
-    number:0,
-    behavior:''
+    number:4,
+    behavior:'normal'
   })
   const [data,setData] = useState<STATE>({
     temperature:[],

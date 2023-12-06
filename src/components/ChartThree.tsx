@@ -39,11 +39,16 @@ const ChartThree: React.FC<ChartProps> = (props: ChartProps) => {
       },
       dataLabels: {
         name: {
+
           show: false
         },
+      
         value: {
           offsetY: -2,
-          fontSize: '22px'
+          fontSize: '22px',
+          formatter: function (val) {
+            return val+''
+          }
         }
       }
     }
@@ -116,6 +121,7 @@ const ChartThree: React.FC<ChartProps> = (props: ChartProps) => {
         <div id="chartThree" className="mx-auto flex justify-center">
           <ReactApexChart
             options={options}
+
             series={[props.value]}
             type="radialBar"
             height={350}
