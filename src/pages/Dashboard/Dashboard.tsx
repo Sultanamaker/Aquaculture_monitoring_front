@@ -98,7 +98,8 @@ const Dashboard = () => {
         <ChartThree name='Water Density' value={data.density}/>
         <div className="col-span-12 xl:col-span-6">
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-          <img src={Camera} alt="Camera" />
+          <img className="w-[100%] h-[100%]" src="http://localhost:5000/video" />
+
         </div>
         </div>
         <ChartOne  name="Temperature Levels" data={data.temperature}/>
